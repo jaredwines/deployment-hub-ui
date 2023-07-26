@@ -35,6 +35,14 @@ export const formConfig: FormConfig = {
         },
         'deployment-hub': {
             'deploy': defaultActionArgs
+        },
+        'deployment-hub-ui': {
+            'deploy': defaultActionArgs,
+            'start': defaultActionArgs,
+            'stop': defaultActionArgs,
+            'restart': defaultActionArgs,
+            'update': defaultActionArgs,
+            'backup': defaultActionArgs,
         }
     }
 }

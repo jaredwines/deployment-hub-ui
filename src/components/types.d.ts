@@ -1,4 +1,4 @@
-type Project = 'alohamillworks' | 'coastalteardrops' | 'jaredwines' | 'home-assistant' | 'homebridge' | 'deployment-hub'
+type Project = 'alohamillworks' | 'coastalteardrops' | 'jaredwines' | 'home-assistant' | 'homebridge' | 'deployment-hub'| 'deployment-hub-ui'
 
 type ProjectOption = {
     label: string
