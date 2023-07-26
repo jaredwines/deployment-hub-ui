@@ -59,15 +59,11 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
             project: 'home-assistant'
         },
     })
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
         fetch('http://192.168.0.216:5000/'+data.project+'/'+data.action+'/'+data.branch, {
-            method: "POST",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-            mode:'cors'
+            method: "GET",
+            mode:'no-cors'
         })
-        console.log(data)
     }
 
     const [actionOptions, setActionOptions] = useState<Option[]>([{
