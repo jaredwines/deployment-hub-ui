@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Button } from "@mui/material";
+import {
+    useMutation,
+} from '@tanstack/react-query'
+import {Alert, AlertTitle, Button} from "@mui/material";
 import {formConfig} from "./formConfig";
 import {projectOptions} from "./projectOptions";
 import Select from "./Select";
@@ -10,6 +13,8 @@ import './DeploymentForm.scss';
 type DeploymentFormProps = {
     //
 }
+
+const alertTimeout = 5000; // 5 seconds
 
 const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
     const {
@@ -23,7 +28,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
             action: 'deploy'
         },
     })
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const submitCommand = async (data: Inputs) => {
         if (!data.project || !data.action) {
             return
         }
@@ -33,14 +38,41 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
             url += '/'+data.branch;
         }
 
-        fetch(url, {
+        return fetch(url, {
             method: "GET",
             mode:'no-cors'
         })
     }
+    const {
+        isLoading,
+        mutate,
+    } = useMutation({
+        mutationFn: submitCommand,
+        onSuccess: () => setWasSuccessful(true),
+        onError: () => setWasFailure(true),
+    })
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        mutate(data)
+    }
 
     const projectSelection = watch("project");
     const actionSelection = watch("action");
+
+    const [wasSuccessful, setWasSuccessful] = useState(false);
+    const [wasFailure, setWasFailure] = useState(false);
+
+    useEffect(() => {
+        // re-hides success alert
+        const timeout = setTimeout(() => setWasSuccessful(false), alertTimeout)
+        return clearTimeout(timeout);
+    }, [wasSuccessful]);
+
+    useEffect(() => {
+        // re-hides failure alert
+        const timeout = setTimeout(() => setWasFailure(false), alertTimeout)
+        return clearTimeout(timeout);
+    }, [wasFailure]);
 
     const getActionOptions = useCallback(() => {
         const actionsAndArgs = formConfig.projects[projectSelection]
@@ -58,6 +90,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
 
     return <div className={'page'}>
         <form onSubmit={handleSubmit(onSubmit)} className={'deployment-form'}>
+            {isLoading && 'Loading...'}
             <Select
                 label={'Project'}
                 options={projectOptions}
@@ -84,6 +117,15 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
 
             <Button variant="contained" type="submit">Submit</Button>
         </form>
+
+        {wasSuccessful && <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Update is <strong>complete</strong>.
+        </Alert>}
+        {wasFailure && <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Something went wrong.
+        </Alert>}
     </div>;
 }
 

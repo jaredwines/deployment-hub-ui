@@ -1,9 +1,18 @@
 import React from 'react';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import DeploymentForm from "./components/DeploymentForm";
+
+// Create a client
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <DeploymentForm/>
+      <QueryClientProvider client={queryClient}>
+        <DeploymentForm/>
+      </QueryClientProvider>
   );
 }
 
