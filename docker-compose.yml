@@ -1,8 +1,7 @@
 version: '3.7'
 
 services:
-
-  sample:
+  deployment-hub-ui:
     container_name: deployment-hub-ui
     build:
       context: .
