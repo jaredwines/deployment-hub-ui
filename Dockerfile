@@ -10,7 +10,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY package.json ./d
 COPY package-lock.json ./
-RUN npm ci && npm cache clean
+RUN npm ci
 RUN npm install react-scripts@3.4.1 -g --silent
 
 # add app
