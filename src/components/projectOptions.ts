@@ -1,30 +1,30 @@
 export const projectOptions: ProjectOption[] = [
     {
-        label: 'Aloha Mill Works',
+        label: 'alohamillworks',
         value: 'alohamillworks'
     },
     {
-        label: 'Coastal Teardrops',
+        label: 'coastalteardrops',
         value: 'coastalteardrops'
     },
     {
-        label: 'Jared Wines Personal Website',
+        label: 'jaredwines',
         value: 'jaredwines'
     },
     {
-        label: 'Home Assistant',
+        label: 'home-assistant',
         value: 'home-assistant'
     },
     {
-        label: 'Homebridge',
+        label: 'homebridge',
         value: 'homebridge'
     },
     {
-        label: 'Deployment Hub',
+        label: 'deployment-hub',
         value: 'deployment-hub'
     },
     {
-        label: 'Deployment Hub UI',
+        label: 'deployment-hub-ui',
         value: 'deployment-hub-ui'
     }
 ]

@@ -4,4 +4,7 @@ export const branchOptions = [{
 }, {
     label: 'master',
     value: 'master',
+}, {
+    label: 'dev',
+    value: 'dev',
 }]
