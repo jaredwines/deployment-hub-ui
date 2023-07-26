@@ -1,0 +1,17 @@
+.page, html, body, #root {
+  height: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.deployment-form {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+  text-align: center;
+}

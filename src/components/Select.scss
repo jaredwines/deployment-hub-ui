@@ -1,0 +1,13 @@
+.select-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  .select {
+    width: 200px;
+  }
+
+  .label {
+    //vertical-align: center;
+  }
+}

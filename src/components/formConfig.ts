@@ -5,7 +5,6 @@ type FormConfig = {
 type ActionsAndArgs = Record<string, string[]>
 
 const defaultActionArgs = ['branch']
-
 export const formConfig: FormConfig = {
     projects: {
         'alohamillworks': {

@@ -1,55 +1,14 @@
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Button, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button } from "@mui/material";
 import {formConfig} from "./formConfig";
-
-const projectOptions: ProjectOption[] = [
-    {
-        label: 'Aloha Mill Works',
-        value: 'alohamillworks'
-    },
-    {
-        label: 'Coastal Teardrops',
-        value: 'coastalteardrops'
-    },
-    {
-        label: 'Jared Wines Personal Website',
-        value: 'jaredwines'
-    },
-    {
-        label: 'Home Assistant',
-        value: 'home-assistant'
-    },
-    {
-        label: 'Homebridge',
-        value: 'homebridge'
-    },
-    {
-        label: 'Deployment Hub',
-        value: 'deployment-hub'
-    },
-    {
-        label: 'Deployment Hub UI',
-        value: 'deployment-hub-ui'
-    }
-]
-
-const branchOptions = [{
-    label: 'main',
-    value: 'main',
-}, {
-    label: 'master',
-    value: 'master',
-}]
+import {projectOptions} from "./projectOptions";
+import Select from "./Select";
+import {branchOptions} from "./branchOptions";
+import './DeploymentForm.scss';
 
 type DeploymentFormProps = {
     //
-}
-
-type Inputs = {
-    project: Project
-    action: string
-    branch?: string
 }
 
 const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
@@ -60,86 +19,72 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
         formState: { errors },
     } = useForm<Inputs>({
         defaultValues: {
-            project: 'home-assistant'
+            project: 'home-assistant',
+            action: 'deploy'
         },
     })
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        fetch('http://192.168.0.216:5000/'+data.project+'/'+data.action+'/'+data.branch, {
+        if (!data.project || !data.action) {
+            return
+        }
+        let url = 'http://192.168.0.216:5000/'+data.project+'/'+data.action;
+
+        if (data.branch) {
+            url += '/'+data.branch;
+        }
+
+        fetch(url, {
             method: "GET",
             mode:'no-cors'
         })
     }
 
-    const [actionOptions, setActionOptions] = useState<Option[]>([{
-        label: 'deploy',
-        value: 'deploy'
-    }]);
-
     const projectSelection = watch("project");
     const actionSelection = watch("action");
 
-    useEffect(() => {
+    const getActionOptions = useCallback(() => {
         const actionsAndArgs = formConfig.projects[projectSelection]
-        const updatedActionOptions = Object.keys(actionsAndArgs).map((action)=>({
+        const actions = Object.keys(actionsAndArgs);
+        return actions.map((action)=>({
             label: action,
             value: action
         }))
+    }, [projectSelection]);
+    const [actionOptions, setActionOptions] = useState<Option[]>(getActionOptions());
 
-        setActionOptions(updatedActionOptions);
+    useEffect(() => {
+        setActionOptions(getActionOptions());
     }, [projectSelection]);
 
-    return <>
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/* include validation with required or other standard HTML validation rules */}
-            <InputLabel id="project-label">Project</InputLabel>
+    return <div className={'page'}>
+        <form onSubmit={handleSubmit(onSubmit)} className={'deployment-form'}>
             <Select
-                labelId="project-label"
-                id="project-select"
-                label="Project"
+                label={'Project'}
+                options={projectOptions}
                 {...register("project", { required: true })}
-            >
-                {projectOptions.map((option) => {
-                    return <MenuItem value={option.value}>{option.label}</MenuItem>
-                })}
-            </Select>
-            {/* errors will return when field validation fails  */}
-            {errors.project && <span>This field is required</span>}
+                fieldError={errors.project}
+            />
 
-            {/* include validation with required or other standard HTML validation rules */}
-            <InputLabel id="action-label">Action</InputLabel>
             <Select
-                labelId="action-label"
-                id="action-select"
-                label="Project"
+                label={'Action'}
+                options={actionOptions}
                 {...register("action", { required: true })}
-            >
-                {actionOptions.map((option) => {
-                    return <MenuItem value={option.value}>{option.label}</MenuItem>
-                })}
-            </Select>
-            {/* errors will return when field validation fails  */}
-            {errors.action && <span>This field is required</span>}
+                fieldError={errors.action}
+            />
 
-            {/* include validation with required or other standard HTML validation rules */}
             {
                 actionSelection && <>
-                    <InputLabel id="branch-label">Branch</InputLabel>
                     <Select
-                        labelId="branch-label"
-                        id="branch-select"
-                        label="Project"
-                        {...register("branch")}
-                    >
-                        {branchOptions.map((option) => {
-                            return <MenuItem value={option.value}>{option.label}</MenuItem>
-                        })}
-                    </Select>
+                        label={'Branch'}
+                        options={branchOptions}
+                        {...register('branch')}
+                    />
                 </>
             }
 
             <Button variant="contained" type="submit">Submit</Button>
         </form>
-    </>;
+    </div>;
 }
 
 export default DeploymentForm;

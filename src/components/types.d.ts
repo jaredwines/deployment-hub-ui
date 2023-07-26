@@ -9,3 +9,9 @@ type Option = {
     label: string
     value: string
 }
+
+type Inputs = {
+    project: Project
+    action: string
+    branch?: string
+}
