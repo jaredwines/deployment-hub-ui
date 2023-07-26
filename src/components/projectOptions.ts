@@ -22,5 +22,9 @@ export const projectOptions: ProjectOption[] = [
     {
         label: 'Deployment Hub',
         value: 'deployment-hub'
+    },
+    {
+        label: 'Deployment Hub UI',
+        value: 'deployment-hub-ui'
     }
 ]
