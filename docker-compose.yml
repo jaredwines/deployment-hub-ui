@@ -3,7 +3,7 @@ version: '3.7'
 services:
   deployment-hub-ui:
     container_name: deployment-hub-ui
-    build: https://github.com/jaredwines/deployment-hub-ui.git#${DEPLOYMENT_HUB_BRANCH}
+    build: https://github.com/jaredwines/deployment-hub-ui.git#${BRANCH}
     volumes:
       - '.:/app'
       - '/app/node_modules'
