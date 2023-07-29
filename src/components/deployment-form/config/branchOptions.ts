@@ -1,4 +1,7 @@
 export const branchOptions = [{
+    label: 'None',
+    value: 'none',
+}, {
     label: 'main',
     value: 'main',
 }, {
@@ -7,8 +10,4 @@ export const branchOptions = [{
 }, {
     label: 'dev',
     value: 'dev',
-},
-{
-    label: 'None',
-    value: 'none',
 }]
