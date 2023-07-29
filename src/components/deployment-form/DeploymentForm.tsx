@@ -12,12 +12,14 @@ import {submitCommand} from "./submitCommand";
 import {useTimeout} from "./useTimeout";
 
 type DeploymentFormProps = {
-    //
+    isDev: boolean
 }
 
 const alertTimeout = 5; // 5 seconds
 
-const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
+const DeploymentForm: React.FC<DeploymentFormProps> = ({
+                                                           isDev
+                                                       }) => {
     const methods = useForm<Inputs>({
         defaultValues: {
             project: 'home-assistant',
@@ -76,9 +78,11 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
         setActionOptions(() => getActionOptions());
     }, [getActionOptions, projectSelection])
 
-    return <div className={'page'}>
-        <Button variant="contained" type="button" onClick={() => setWasSuccessful(true)}>Simulate Success</Button>
-        <Button variant="outlined" type="button" onClick={() => setWasFailure(true)}>Simulate Failure</Button>
+    return <>
+        {isDev && <>
+            <Button variant="contained" type="button" onClick={() => setWasSuccessful(true)}>Simulate Success</Button>
+            <Button variant="outlined" type="button" onClick={() => setWasFailure(true)}>Simulate Failure</Button>
+        </> }
 
         {wasSuccessful && <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
@@ -122,7 +126,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({}) => {
                 <Button variant="contained" type="submit">Submit</Button>
             </form>
         </FormProvider>
-    </div>;
+    </>;
 }
 
 export default DeploymentForm;
