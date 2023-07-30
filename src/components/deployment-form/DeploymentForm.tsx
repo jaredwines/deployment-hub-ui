@@ -63,7 +63,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
 
     useEffect(() => {
         if (!data) return
-        debugger;
+        //debugger;
         dispatch(updateLogs(data))
     }, [data, dispatch]);
 
