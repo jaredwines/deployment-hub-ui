@@ -10,16 +10,22 @@ import './DeploymentForm.scss';
 import classNames from "classnames";
 import {submitCommand} from "./submitCommand";
 import {useTimeout} from "./useTimeout";
+import { useAppDispatch } from '../../reduxHooks'
+import {
+    selectWasFailure,
+    selectWasSuccessful,
+    updateWasFailure,
+    updateWasSuccessful,
+} from '../../slices/resultsSlice'
+import {useAppSelector} from "../../reduxHooks";
 
 type DeploymentFormProps = {
-    isDev: boolean
 }
 
 const alertTimeout = 5; // 5 seconds
 
-const DeploymentForm: React.FC<DeploymentFormProps> = ({
-                                                           isDev
-                                                       }) => {
+const DeploymentForm: React.FC<DeploymentFormProps> = () => {
+    const dispatch = useAppDispatch()
     const methods = useForm<Inputs>({
         defaultValues: {
             project: 'home-assistant',
@@ -47,8 +53,11 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({
     const projectSelection = watch("project");
     const actionSelection = watch("action");
 
-    const [wasSuccessful, setWasSuccessful] = useState(false);
-    const [wasFailure, setWasFailure] = useState(false);
+    const setWasSuccessful = (update: boolean) => dispatch(updateWasSuccessful(update))
+    const setWasFailure = (update: boolean) => dispatch(updateWasFailure(update))
+
+    const wasSuccessful = useAppSelector(selectWasSuccessful)
+    const wasFailure = useAppSelector(selectWasFailure)
 
     // re-hides success alert
     const { secondsLeft: successfulSecondsLeft } = useTimeout({
@@ -79,11 +88,6 @@ const DeploymentForm: React.FC<DeploymentFormProps> = ({
     }, [getActionOptions, projectSelection])
 
     return <>
-        {isDev && <>
-            <Button variant="contained" type="button" onClick={() => setWasSuccessful(true)}>Simulate Success</Button>
-            <Button variant="outlined" type="button" onClick={() => setWasFailure(true)}>Simulate Failure</Button>
-        </> }
-
         {wasSuccessful && <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
             Update is <strong>complete</strong>. ({successfulSecondsLeft})

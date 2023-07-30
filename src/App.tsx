@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { Provider } from 'react-redux'
 import {
   QueryClient,
   QueryClientProvider,
@@ -6,18 +7,21 @@ import {
 import DeploymentForm from "./components/deployment-form/DeploymentForm";
 import DevControls from "./components/dev-controls/DevControls";
 
+import store from './store'
+
 // Create a client
 const queryClient = new QueryClient()
 
 function App() {
-    const [isDevMode, setIsDevMode] = useState(false)
   return (
-      <QueryClientProvider client={queryClient}>
-          <div className={'page'}>
-              <DevControls onClick={() => setIsDevMode(!isDevMode)} />
-              <DeploymentForm isDev={isDevMode}/>
-          </div>
-      </QueryClientProvider>
+      <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+              <div className={'page'}>
+                  <DevControls />
+                  <DeploymentForm/>
+              </div>
+          </QueryClientProvider>
+      </Provider>
   );
 }
 
