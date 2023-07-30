@@ -1,9 +1,11 @@
 import React from 'react';
-import {Button, Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import classNames from 'classnames';
-import {useAppDispatch, useAppSelector} from '../../reduxHooks'
-// import './Logs.scss';
+import {useAppSelector} from '../../reduxHooks'
+import './Logs.scss';
 import {selectLogs} from "../../slices/resultsSlice";
+import {selectIsSimulatingLogs} from "../../slices/devControlsSlice";
+import {simulatedLogs} from "./simulatedLogs";
 
 interface LogsProps {
     className?: string
@@ -13,23 +15,26 @@ const Logs: React.FC<LogsProps> = ({
    className,
 }) => {
     const logs = useAppSelector(selectLogs);
-    // const dispatch = useAppDispatch()
-    // const isDevMode = useAppSelector(selectIsDevMode)
-    //
-    // const setWasSuccessful = (update: boolean) => dispatch(updateWasSuccessful(update))
+    const isSimulatingLogs = useAppSelector(selectIsSimulatingLogs);
+
+    const logsToUse = !isSimulatingLogs ? logs: simulatedLogs;
 
     return <div className={classNames('logs',className)}>
 
-        {logs && <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
+        {logsToUse && <Card sx={{ maxWidth: 345 }} className={'logs-card'}>
+            {/*<CardActionArea>*/}
                 <CardContent>
-                        {logs?.map((log) => {
-                            return <Typography variant="body2" color="text.secondary">
-                                {log}
+                        {logsToUse?.map((log) => {
+                            return <Typography
+                                variant="body2"
+                                // color="text.secondary"
+                                key={log}
+                            >
+                                {`> ${log}`}
                             </Typography>
                         })}
                 </CardContent>
-            </CardActionArea>
+            {/*</CardActionArea>*/}
         </Card>}
     </div>;
 }

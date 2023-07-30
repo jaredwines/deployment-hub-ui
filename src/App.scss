@@ -1,0 +1,12 @@
+@import "src/shared/styles/colors";
+
+.page, html, body, #root {
+  height: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $page-background;
+}

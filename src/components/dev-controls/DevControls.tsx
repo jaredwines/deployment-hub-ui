@@ -2,7 +2,12 @@ import React, {useCallback} from 'react';
 import { Button } from "@mui/material";
 import classNames from 'classnames';
 import {useAppDispatch, useAppSelector} from '../../reduxHooks'
-import {selectIsDevMode, toggleDevMode, toggleSimulatingLoading} from '../../slices/devControlsSlice'
+import {
+    selectIsDevMode,
+    toggleDevMode,
+    toggleSimulatingLoading,
+    toggleSimulatingLogs
+} from '../../slices/devControlsSlice'
 import './DevControls.scss';
 import {updateWasFailure, updateWasSuccessful} from "../../slices/resultsSlice";
 
@@ -23,6 +28,7 @@ const DevControls: React.FC<DevControlsProps> = ({
     const onSuccessClick = useCallback(() => setWasSuccessful(true), [setWasSuccessful])
     const onFailClick = useCallback(() => setWasFailure(true), [setWasFailure])
     const onLoadingClick = useCallback(() => dispatch(toggleSimulatingLoading()), [])
+    const onLogsClick = useCallback(() => dispatch(toggleSimulatingLogs()), [])
 
     return <div className={classNames('dev-controls',className)}>
         <Button onClick={onToggleDevModeClick} >Toggle UI Dev Controls</Button>
@@ -31,6 +37,7 @@ const DevControls: React.FC<DevControlsProps> = ({
             <Button variant="contained" type="button" onClick={onSuccessClick}>Simulate Success</Button>
             <Button variant="outlined" type="button" onClick={onFailClick}>Simulate Failure</Button>
             <Button variant="contained" type="button" onClick={onLoadingClick}>Simulate Loading</Button>
+            <Button variant="outlined" type="button" onClick={onLogsClick}>Simulate Logs</Button>
         </> }
     </div>;
 }

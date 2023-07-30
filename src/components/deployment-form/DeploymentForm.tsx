@@ -109,14 +109,6 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
 
     return <>
         <Loading isLoading={isLoading || isSimulatingLoading} />
-        {wasSuccessful && <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            Update is <strong>complete</strong>. ({successfulSecondsLeft})
-        </Alert>}
-        {wasFailure && <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-            Something went wrong. ({failureSecondsLeft})
-        </Alert>}
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className={'deployment-form'}>
                 <div className={'dropdowns'}>
@@ -157,6 +149,14 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
                 </Button>
             </form>
         </FormProvider>
+        {wasSuccessful && <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Update is <strong>complete</strong>. ({successfulSecondsLeft})
+        </Alert>}
+        {wasFailure && <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Something went wrong. ({failureSecondsLeft})
+        </Alert>}
     </>;
 }
 

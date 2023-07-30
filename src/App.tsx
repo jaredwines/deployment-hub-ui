@@ -9,6 +9,7 @@ import DevControls from "./components/dev-controls/DevControls";
 
 import store from './store'
 import Logs from "./components/logs/Logs";
+import './App.scss';
 
 // Create a client
 const queryClient = new QueryClient()
