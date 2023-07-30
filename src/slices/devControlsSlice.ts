@@ -5,12 +5,14 @@ import type { RootState } from '../store'
 interface DevControlsState {
     value: number
     isDevMode: boolean
+    isSimulatingLoading: boolean
 }
 
 // Define the initial state using that type
 const initialState: DevControlsState = {
     value: 0,
     isDevMode: false,
+    isSimulatingLoading: false,
 }
 
 export const devControlsSlice = createSlice({
@@ -34,6 +36,9 @@ export const devControlsSlice = createSlice({
         toggleDevMode: (state) => {
             state.isDevMode = !state.isDevMode
         },
+        toggleSimulatingLoading: (state) => {
+            state.isSimulatingLoading = !state.isSimulatingLoading
+        }
     },
 })
 
@@ -43,10 +48,12 @@ export const {
     decrement,
     incrementByAmount,
     toggleDevMode,
+    toggleSimulatingLoading,
 } = devControlsSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.devControls.value
 export const selectIsDevMode = (state: RootState) => state.devControls.isDevMode
+export const selectIsSimulatingLoading = (state: RootState) => state.devControls.isSimulatingLoading
 
 export default devControlsSlice.reducer

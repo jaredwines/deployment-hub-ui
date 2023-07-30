@@ -10,10 +10,21 @@
 
 .deployment-form {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   padding: 20px;
   gap: 10px;
   text-align: center;
+}
+
+.dropdowns {
+  display: flex;
+  justify-content: center;
+}
+
+.submit {
+  width: 150px;
+  align-self: center;
+  padding: 12px !important; //todo get rid of this !important
 }
 
 .hide {

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { Button } from "@mui/material";
 import classNames from 'classnames';
 import {useAppDispatch, useAppSelector} from '../../reduxHooks'
-import {selectIsDevMode, toggleDevMode} from '../../slices/devControlsSlice'
+import {selectIsDevMode, toggleDevMode, toggleSimulatingLoading} from '../../slices/devControlsSlice'
 import './DevControls.scss';
 import {updateWasFailure, updateWasSuccessful} from "../../slices/resultsSlice";
 
@@ -16,15 +16,21 @@ const DevControls: React.FC<DevControlsProps> = ({
     const dispatch = useAppDispatch()
     const isDevMode = useAppSelector(selectIsDevMode)
 
-    const setWasSuccessful = (update: boolean) => dispatch(updateWasSuccessful(update))
-    const setWasFailure = (update: boolean) => dispatch(updateWasFailure(update))
+    const setWasSuccessful = useCallback((update: boolean) => dispatch(updateWasSuccessful(update)),[dispatch])
+    const setWasFailure = useCallback((update: boolean) => dispatch(updateWasFailure(update)), [dispatch])
+
+    const onToggleDevModeClick = useCallback(() => dispatch(toggleDevMode()),[dispatch])
+    const onSuccessClick = useCallback(() => setWasSuccessful(true), [setWasSuccessful])
+    const onFailClick = useCallback(() => setWasFailure(true), [setWasFailure])
+    const onLoadingClick = useCallback(() => dispatch(toggleSimulatingLoading()), [])
 
     return <div className={classNames('dev-controls',className)}>
-        <Button onClick={() => dispatch(toggleDevMode())} >Toggle UI Dev Controls</Button>
+        <Button onClick={onToggleDevModeClick} >Toggle UI Dev Controls</Button>
 
         {isDevMode && <>
-            <Button variant="contained" type="button" onClick={() => setWasSuccessful(true)}>Simulate Success</Button>
-            <Button variant="outlined" type="button" onClick={() => setWasFailure(true)}>Simulate Failure</Button>
+            <Button variant="contained" type="button" onClick={onSuccessClick}>Simulate Success</Button>
+            <Button variant="outlined" type="button" onClick={onFailClick}>Simulate Failure</Button>
+            <Button variant="contained" type="button" onClick={onLoadingClick}>Simulate Loading</Button>
         </> }
     </div>;
 }

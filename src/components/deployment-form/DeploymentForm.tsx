@@ -1,7 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form"
 import {useMutation,} from '@tanstack/react-query'
-import {Alert, AlertTitle, Button} from "@mui/material";
+import {
+    Alert,
+    AlertTitle,
+    Button,
+    Card,
+    CardActionArea,
+    CardContent,
+    CardMedia,
+    Modal,
+    Typography
+} from "@mui/material";
 import {formConfig} from "./config/formConfig";
 import {projectOptions} from "./config/projectOptions";
 import Select from "../select/Select";
@@ -13,11 +23,13 @@ import {useTimeout} from "./useTimeout";
 import { useAppDispatch } from '../../reduxHooks'
 import {
     selectWasFailure,
-    selectWasSuccessful,
+    selectWasSuccessful, updateLogs,
     updateWasFailure,
     updateWasSuccessful,
 } from '../../slices/resultsSlice'
 import {useAppSelector} from "../../reduxHooks";
+import Loading from "../loading/Loading";
+import {selectIsSimulatingLoading} from "../../slices/devControlsSlice";
 
 type DeploymentFormProps = {
 }
@@ -40,6 +52,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
     } = methods;
 
     const {
+        data,
         isLoading,
         mutate,
     } = useMutation({
@@ -47,6 +60,12 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
         onSuccess: () => setWasSuccessful(true),
         onError: () => setWasFailure(true),
     })
+
+    useEffect(() => {
+        if (!data) return
+        debugger;
+        dispatch(updateLogs(data))
+    }, [data, dispatch]);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => mutate(data)
 
@@ -58,6 +77,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
 
     const wasSuccessful = useAppSelector(selectWasSuccessful)
     const wasFailure = useAppSelector(selectWasFailure)
+    const isSimulatingLoading = useAppSelector(selectIsSimulatingLoading)
 
     // re-hides success alert
     const { secondsLeft: successfulSecondsLeft } = useTimeout({
@@ -88,6 +108,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
     }, [getActionOptions, projectSelection])
 
     return <>
+        <Loading isLoading={isLoading || isSimulatingLoading} />
         {wasSuccessful && <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
             Update is <strong>complete</strong>. ({successfulSecondsLeft})
@@ -98,36 +119,42 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
         </Alert>}
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className={'deployment-form'}>
-                {isLoading && 'Loading...'}
+                <div className={'dropdowns'}>
+                    <Select
+                        label={'Project'}
+                        name={'project'}
+                        options={projectOptions}
+                        controllerProps={{
+                            rules: {required: true}
+                        }}
+                    />
 
-                <Select
-                    label={'Project'}
-                    name={'project'}
-                    options={projectOptions}
-                    controllerProps={{
-                        rules: {required: true}
-                    }}
-                />
+                    <Select
+                        label={'Action'}
+                        name={'action'}
+                        options={actionOptions}
+                        controllerProps={{
+                            rules: {required: true}
+                        }}
+                    />
 
-                <Select
-                    label={'Action'}
-                    name={'action'}
-                    options={actionOptions}
-                    controllerProps={{
-                        rules: {required: true}
-                    }}
-                />
+                    <Select
+                        label={'Branch'}
+                        name={'branch'}
+                        options={branchOptions}
+                        className={classNames({
+                            'hide': !actionSelection
+                        })}
+                    />
+                </div>
 
-                <Select
-                    label={'Branch'}
-                    name={'branch'}
-                    options={branchOptions}
-                    className={classNames({
-                        'hide': !actionSelection
-                    })}
-                />
-
-                <Button variant="contained" type="submit">Submit</Button>
+                <Button
+                    variant="contained"
+                    type="submit"
+                    className={'submit'}
+                >
+                    Submit
+                </Button>
             </form>
         </FormProvider>
     </>;

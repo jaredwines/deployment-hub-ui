@@ -8,6 +8,7 @@ import DeploymentForm from "./components/deployment-form/DeploymentForm";
 import DevControls from "./components/dev-controls/DevControls";
 
 import store from './store'
+import Logs from "./components/logs/Logs";
 
 // Create a client
 const queryClient = new QueryClient()
@@ -19,6 +20,7 @@ function App() {
               <div className={'page'}>
                   <DevControls />
                   <DeploymentForm/>
+                  <Logs/>
               </div>
           </QueryClientProvider>
       </Provider>
