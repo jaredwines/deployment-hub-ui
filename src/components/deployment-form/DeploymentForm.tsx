@@ -5,12 +5,6 @@ import {
     Alert,
     AlertTitle,
     Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Modal,
-    Typography
 } from "@mui/material";
 import {formConfig} from "./config/formConfig";
 import {projectOptions} from "./config/projectOptions";

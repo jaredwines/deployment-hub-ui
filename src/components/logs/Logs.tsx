@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
+import {Card, CardContent, Typography} from "@mui/material";
 import classNames from 'classnames';
 import {useAppSelector} from '../../reduxHooks'
 import './Logs.scss';
@@ -23,24 +23,29 @@ const Logs: React.FC<LogsProps> = ({
         navigator.clipboard.writeText(text)
     },[]);
 
+    const logsLog : { [key:string]: number} = {};
+
     return <div className={classNames('logs',className)}>
 
         {logsToUse && <Card className={'logs-card'}>
-            {/*<CardActionArea>*/}
                 <CardContent>
                         {logsToUse?.map((log) => {
-                            // return <CardActionArea onClick={() => onCopy(log)}>
+                            let key = log
+                            if (!logsLog[log]) {
+                                logsLog[log] = 1;
+                            }else {
+                                logsLog[log] += 1
+                                key = key + `_${logsLog[log]}`
+                            }
                                 return <Typography
                                     variant="body2"
                                     // color="text.secondary"
-                                    key={log}
+                                    key={key}
                                 >
                                     {`${log}`}
                                 </Typography>
-                            // </CardActionArea>
                         })}
                 </CardContent>
-            {/*</CardActionArea>*/}
         </Card>}
     </div>;
 }

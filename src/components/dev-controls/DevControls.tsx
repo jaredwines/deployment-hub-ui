@@ -27,8 +27,8 @@ const DevControls: React.FC<DevControlsProps> = ({
     const onToggleDevModeClick = useCallback(() => dispatch(toggleDevMode()),[dispatch])
     const onSuccessClick = useCallback(() => setWasSuccessful(true), [setWasSuccessful])
     const onFailClick = useCallback(() => setWasFailure(true), [setWasFailure])
-    const onLoadingClick = useCallback(() => dispatch(toggleSimulatingLoading()), [])
-    const onLogsClick = useCallback(() => dispatch(toggleSimulatingLogs()), [])
+    const onLoadingClick = useCallback(() => dispatch(toggleSimulatingLoading()), [dispatch])
+    const onLogsClick = useCallback(() => dispatch(toggleSimulatingLogs()), [dispatch])
 
     return <div className={classNames('dev-controls',className)}>
         <Button onClick={onToggleDevModeClick} >Toggle UI Dev Controls</Button>
