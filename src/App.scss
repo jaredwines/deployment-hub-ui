@@ -2,10 +2,13 @@
 
 .page, html, body, #root {
   min-height: 100%;
+  flex: 1;
+  display: flex;
 }
 
 html {
   background-color: $page-background;
+  display: flex;
 }
 
 body {
