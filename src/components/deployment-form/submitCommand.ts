@@ -15,7 +15,6 @@ export const submitCommand = async (data: Inputs) => {
         // .then((response) => response.json())
         // .then((response) => response.text())
         .then(async (data) => {
-            debugger;
             const json = await data.json()
             // const json = await data.text()
             return json;
