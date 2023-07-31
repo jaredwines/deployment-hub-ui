@@ -12,11 +12,6 @@ export const submitCommand = async (data: Inputs) => {
         method: 'GET',
         mode: 'cors'
     })
-        // .then((response) => response.json())
-        // .then((response) => response.text())
-        .then(async (data) => {
-            const json = await data.json()
-            // const json = await data.text()
-            return json;
-        })
+        .then((response) => response.json())
+        .then((json)=>JSON.parse(JSON.stringify(json)))//clone
 }

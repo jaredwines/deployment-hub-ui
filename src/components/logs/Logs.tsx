@@ -13,6 +13,7 @@ const Logs: React.FC<LogsProps> = ({
    className,
 }) => {
     const logs = useAppSelector(selectLogs);
+
     // const dispatch = useAppDispatch()
     // const isDevMode = useAppSelector(selectIsDevMode)
     //
