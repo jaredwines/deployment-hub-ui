@@ -38,6 +38,7 @@ const Select: React.FC<SelectProps> = ({
                 }}
                 labelId={id}
                 label={label}
+                variant={"outlined"}
                 {...field}
             >
                 {options.map((option) => {
