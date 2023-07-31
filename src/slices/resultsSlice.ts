@@ -26,10 +26,8 @@ export const resultsSlice = createSlice({
         updateWasSuccessful: (state, action: PayloadAction<boolean>) => {
             state.wasSuccessful = action.payload
         },
-        // @ts-ignore
-        updateLogs: async (state, action) => {
-            const payload = action.payload
-            state.logs = payload
+        updateLogs: (state, action) => {
+            state.logs = action.payload
         },
     },
 })
