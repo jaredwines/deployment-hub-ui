@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardContent, Typography } from "@mui/material";
+import React, {useCallback} from 'react';
+import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
 import classNames from 'classnames';
 import {useAppSelector} from '../../reduxHooks'
 import './Logs.scss';
@@ -19,19 +19,25 @@ const Logs: React.FC<LogsProps> = ({
 
     const logsToUse = !isSimulatingLogs ? logs: simulatedLogs;
 
+    const onCopy = useCallback((text: string)=>{
+        navigator.clipboard.writeText(text)
+    },[]);
+
     return <div className={classNames('logs',className)}>
 
-        {logsToUse && <Card sx={{ maxWidth: 650 }} className={'logs-card'}>
+        {logsToUse && <Card className={'logs-card'}>
             {/*<CardActionArea>*/}
                 <CardContent>
                         {logsToUse?.map((log) => {
-                            return <Typography
-                                variant="body2"
-                                // color="text.secondary"
-                                key={log}
-                            >
-                                {`${log}`}
-                            </Typography>
+                            // return <CardActionArea onClick={() => onCopy(log)}>
+                                return <Typography
+                                    variant="body2"
+                                    // color="text.secondary"
+                                    key={log}
+                                >
+                                    {`${log}`}
+                                </Typography>
+                            // </CardActionArea>
                         })}
                 </CardContent>
             {/*</CardActionArea>*/}
