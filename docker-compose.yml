@@ -7,4 +7,4 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - /home/jared/Projects/deployment-hub-ui/.env
+      - ~/Projects/deployment-hub-ui/.env
