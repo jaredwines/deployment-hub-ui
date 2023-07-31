@@ -5,6 +5,6 @@ services:
     container_name: deployment-hub-ui
     build: https://github.com/jaredwines/deployment-hub-ui.git#${BRANCH}
     ports:
-      - 3000:3000
+      - "3000:3000"
     env_file:
       - ~/Projects/deployment-hub-ui/.env
