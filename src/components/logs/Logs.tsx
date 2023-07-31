@@ -21,7 +21,7 @@ const Logs: React.FC<LogsProps> = ({
 
     return <div className={classNames('logs',className)}>
 
-        {logsToUse && <Card sx={{ maxWidth: 345 }} className={'logs-card'}>
+        {logsToUse && <Card sx={{ maxWidth: 650 }} className={'logs-card'}>
             {/*<CardActionArea>*/}
                 <CardContent>
                         {logsToUse?.map((log) => {
@@ -30,7 +30,7 @@ const Logs: React.FC<LogsProps> = ({
                                 // color="text.secondary"
                                 key={log}
                             >
-                                {`> ${log}`}
+                                {`${log}`}
                             </Typography>
                         })}
                 </CardContent>
