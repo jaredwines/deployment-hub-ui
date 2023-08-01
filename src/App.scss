@@ -12,6 +12,15 @@ body {
   overflow-y: auto;
 }
 
+//body:before {
+//  content: url('https://mui.com/static/images/cards/contemplative-reptile.jpg');
+//  opacity: 0.4;
+//  top: 50%;
+//  position: absolute;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//}
+
 .page {
   display: flex;
   flex-direction: column;

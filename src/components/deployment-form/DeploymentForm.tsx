@@ -47,7 +47,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
 
     const {
         data,
-        isLoading,
+        isLoading: isMutationLoading,
         mutate,
     } = useMutation({
         mutationFn: submitCommand,
@@ -100,8 +100,10 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
         setActionOptions(() => getActionOptions());
     }, [getActionOptions, projectSelection])
 
+    const isLoading = isMutationLoading || isSimulatingLoading;
+
     return <>
-        <Loading isLoading={isLoading || isSimulatingLoading} />
+        <Loading isLoading={isLoading} />
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className={'deployment-form'}>
                 <div className={'dropdowns'}>
@@ -137,6 +139,7 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
                     variant="contained"
                     type="submit"
                     className={'submit'}
+                    disabled={isLoading}
                 >
                     Submit
                 </Button>

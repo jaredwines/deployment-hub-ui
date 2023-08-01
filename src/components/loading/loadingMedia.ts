@@ -6,11 +6,12 @@ interface LoadingMedia {
 }
 
 export const allLoadingMedia: LoadingMedia[] = [
-    {
-        title: 'Lizard',
-        description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica.',
-        image: 'https://mui.com/static/images/cards/contemplative-reptile.jpg'
-    },
+    // Keeping OG Lizard card for historical purposes
+    // {
+    //     title: 'Lizard',
+    //     description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica.',
+    //     image: 'https://mui.com/static/images/cards/contemplative-reptile.jpg'
+    // },
     // Naruto
     {
         title: 'Relax',

@@ -1,9 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import DVDLogoAnimation from "react-dvd-player-animation";
 import {Card, CardContent, CardMedia, Icon, Modal, Typography} from "@mui/material";
 import './Loading.scss';
 import {allLoadingMedia} from "./loadingMedia";
 import {toggleSimulatingLoading} from "../../slices/devControlsSlice";
 import {useAppDispatch} from "../../reduxHooks";
+import classNames from "classnames";
 
 interface LoadingProps {
     isLoading: boolean
@@ -52,25 +54,33 @@ const Loading: React.FC<LoadingProps> = ({
         regenerateRandomIndex()
     }, [closeSimulatedLoadingModal])
 
-    return <Modal open={isLoading} onClose={onClose}>
-        <Card sx={{ maxWidth: 345 }} className={'loading-card'}>
-            {/*<CardActionArea>*/}
-            <CardMedia
-                component="img"
-                height={height || "180"}
-                image={image}
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {description}
-                </Typography>
-            </CardContent>
-            {/*</CardActionArea>*/}
-        </Card>
-    </Modal>;
+    return <>
+        <div className={classNames('dvd-logo-container', {
+            // 'hide': !isLoading
+        })}><DVDLogoAnimation
+            height={1000}
+            width={1728}
+        /></div>
+        <Modal open={isLoading} onClose={onClose}>
+            <Card sx={{ maxWidth: 345 }} className={'loading-card'}>
+                {/*<CardActionArea>*/}
+                <CardMedia
+                    component="img"
+                    height={height || "180"}
+                    image={image}
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {description}
+                    </Typography>
+                </CardContent>
+                {/*</CardActionArea>*/}
+            </Card>
+        </Modal>
+    </>
 }
 
 export default Loading;
