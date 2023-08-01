@@ -7,6 +7,7 @@ import {toggleSimulatingLoading} from "../../slices/devControlsSlice";
 import {useAppDispatch} from "../../reduxHooks";
 import classNames from "classnames";
 import {useWindowDimensions} from "../../shared/hooks/useWindowDimensions";
+import {transitionView} from "../../shared/utils/transitionView";
 
 interface LoadingProps {
     isLoading: boolean
@@ -57,14 +58,20 @@ const Loading: React.FC<LoadingProps> = ({
         regenerateRandomIndex()
     }, [closeSimulatedLoadingModal])
 
+    const [isLoadingState, setIsLoadingState] = useState(isLoading);
+
+    useEffect(() => {
+        transitionView(() => setIsLoadingState(isLoading))
+    }, [isLoading]);
+
     return <>
         <div className={classNames('dvd-logo-container', {
-            // 'hide': !isLoading
+            // 'hide': !isLoadingState
         })}><DVDLogoAnimation
             height={windowHeight}
             width={windowWidth}
         /></div>
-        <Modal open={isLoading} onClose={onClose}>
+        <Modal open={isLoadingState} onClose={onClose}>
             <Card sx={{ maxWidth: 345 }} className={'loading-card'}>
                 {/*<CardActionArea>*/}
                 <CardMedia

@@ -24,6 +24,7 @@ import {
 import {useAppSelector} from "../../reduxHooks";
 import Loading from "../loading/Loading";
 import {selectIsSimulatingLoading} from "../../slices/devControlsSlice";
+import {transitionView} from "../../shared/utils/transitionView";
 
 type DeploymentFormProps = {
 }
@@ -65,8 +66,8 @@ const DeploymentForm: React.FC<DeploymentFormProps> = () => {
     const projectSelection = watch("project");
     const actionSelection = watch("action");
 
-    const setWasSuccessful = (update: boolean) => dispatch(updateWasSuccessful(update))
-    const setWasFailure = (update: boolean) => dispatch(updateWasFailure(update))
+    const setWasSuccessful = (update: boolean) => transitionView(() => dispatch(updateWasSuccessful(update)))
+    const setWasFailure = (update: boolean) => transitionView(() => dispatch(updateWasFailure(update)))
 
     const wasSuccessful = useAppSelector(selectWasSuccessful)
     const wasFailure = useAppSelector(selectWasFailure)
