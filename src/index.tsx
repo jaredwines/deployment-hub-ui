@@ -8,6 +8,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+  // DVD Logo Animation doesn't work with strict mode on
   // <React.StrictMode>
     <App />
   // </React.StrictMode>

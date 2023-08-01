@@ -6,6 +6,7 @@ import {allLoadingMedia} from "./loadingMedia";
 import {toggleSimulatingLoading} from "../../slices/devControlsSlice";
 import {useAppDispatch} from "../../reduxHooks";
 import classNames from "classnames";
+import {useWindowDimensions} from "../../shared/hooks/useWindowDimensions";
 
 interface LoadingProps {
     isLoading: boolean
@@ -36,6 +37,8 @@ const Loading: React.FC<LoadingProps> = ({
         setRandomIndex(randomInt);
     }
 
+    const { height: windowHeight, width: windowWidth } = useWindowDimensions();
+
     useEffect(() => {
         regenerateRandomIndex()
     }, [isLoading])
@@ -58,8 +61,8 @@ const Loading: React.FC<LoadingProps> = ({
         <div className={classNames('dvd-logo-container', {
             // 'hide': !isLoading
         })}><DVDLogoAnimation
-            height={1000}
-            width={1728}
+            height={windowHeight}
+            width={windowWidth}
         /></div>
         <Modal open={isLoading} onClose={onClose}>
             <Card sx={{ maxWidth: 345 }} className={'loading-card'}>
