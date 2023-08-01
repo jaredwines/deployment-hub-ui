@@ -22,7 +22,7 @@ const Logs: React.FC<LogsProps> = ({
 
     useEffect(() => {
         const logsToUse = !isSimulatingLogs ? logs: simulatedLogs;
-        transitionView(() => setLogsState(logsToUse))
+        transitionView(() => setLogsState(() => logsToUse))
     }, [isSimulatingLogs, logs]);
 
     const logsLog : { [key:string]: number} = {};

@@ -61,7 +61,7 @@ const Loading: React.FC<LoadingProps> = ({
     const [isLoadingState, setIsLoadingState] = useState(isLoading);
 
     useEffect(() => {
-        transitionView(() => setIsLoadingState(isLoading))
+        transitionView(() => setIsLoadingState((prevIsLoadingState) => isLoading))
     }, [isLoading]);
 
     return <>
