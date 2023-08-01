@@ -66,7 +66,7 @@ const Loading: React.FC<LoadingProps> = ({
 
     return <>
         <div className={classNames('dvd-logo-container', {
-            // 'hide': !isLoadingState
+            'hide': !isLoadingState
         })}><DVDLogoAnimation
             height={windowHeight}
             width={windowWidth}
