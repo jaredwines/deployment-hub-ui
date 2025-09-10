@@ -7,4 +7,4 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ~/home/jaredwines/docker_compose_files/deployment-hub-ui/.env
+      - /home/jaredwines/docker_compose_files/deployment-hub-ui/.env
